@@ -1,0 +1,7 @@
+The tokenizer architecture implements a Byte Pair Encoding (BPE) algorithm optimized for WebAssembly deployment. The core algorithm begins with a vocabulary of individual byte values and iteratively merges the most frequently occurring pairs of tokens to create new composite tokens. This process continues until a predetermined vocabulary size is reached or no more beneficial merges can be identified.
+
+The implementation leverages several key optimizations: First, the merge operations are pre-computed and stored in a compact binary format that can be efficiently loaded into WASM memory. Second, the encoding process uses a fast string matching algorithm that avoids unnecessary memory allocations. Third, the decoder maintains a reverse lookup table for efficient token-to-string conversion.
+
+Memory management in the WASM environment requires careful consideration of the boundary between JavaScript and WebAssembly heaps. The tokenizer allocates a fixed-size buffer for input text processing and uses a streaming approach for texts that exceed this buffer size. Error handling ensures that malformed input does not cause memory corruption or undefined behavior.
+
+Performance characteristics vary based on input text properties such as character encoding, repetition patterns, and vocabulary coverage. The tokenizer achieves optimal performance on texts with high vocabulary overlap with the training corpus and shows degraded performance on out-of-vocabulary content that requires extensive subword decomposition.

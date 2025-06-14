@@ -1,0 +1,25 @@
+{
+  "name": "bpe-openai-wasm",
+  "version": "0.1.0",
+  "description": "WebAssembly bindings for bpe-openai tokenizer",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "wasm-pack build && tsc",
+    "test": "jest",
+    "benchmark": "tsc && node dist/benchmark.js"
+  },
+  "dependencies": {
+    "bpe-openai-wasm": "file:pkg"
+  },
+  "devDependencies": {
+    "@anthropic-ai/claude-code": "^1.0.21",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "jest": "^29.5.0",
+    "tiktoken": "^1.0.21",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.0.0",
+    "wasm-pack": "^0.13.0"
+  }
+}
