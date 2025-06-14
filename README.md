@@ -49,38 +49,6 @@ Cry
 - `o200k_base` - Used by GPT-4o, oX models
 - `voyage3_base` - Used by Voyage AI models
 
-## Development
-
-### Building
-
-```bash
-cd bpe-openai-wasm
-yarn build    # Build WASM package and compile TypeScript
-```
-
-### Testing
-
-```bash
-yarn test     # Run Jest tests
-```
-
-### Benchmarking
-
-```bash
-yarn benchmark    # Run performance benchmarks
-```
-
-### Core Rust Libraries
-
-The underlying Rust implementations are in the `rust-gems/` directory:
-
-```bash
-cd rust-gems
-make build    # Build all Rust crates
-make test     # Run all tests
-make lint     # Format check and clippy
-```
-
 ## Architecture
 
 The project consists of three layers:
