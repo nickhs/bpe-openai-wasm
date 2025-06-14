@@ -87,10 +87,10 @@ export default config;
 and then you can import/use the tokenizer:
 
 ```ts
-async function mkTokenizer() {
+async function getTokenCount() {
 	const tokenizerModule = await import("bpe-openai-wasm");
 	tokenizer = new tokenizerModule.Tokenizer("o200k_base");
-	return tokenizer;
+    return tokenizer.count("heya!");
 }
 ```
 
