@@ -41,7 +41,60 @@ console.log(text); // "Hello, world!"
 
 ### Usage in Next.js Projects
 
-Cry
+You need to munge around in your `next.config.js` to get Webpack to support `.wasm`
+
+```ts
+import CopyWebpackPlugin from "copy-webpack-plugin";
+
+const config = {
+    webpack: (config, { isServer, dev }) => {
+        config.experiments = {
+            ...config.experiments,
+            asyncWebAssembly: true,
+        };
+
+        // For wasm taken from https://github.com/vercel/next.js/blob/1d2c31d5907fb5d9c4ed0bfbf73b2430f27c48a7/examples/with-webassembly/next.config.js
+        // Use the client static directory in the server bundle and prod mode
+        // Fixes `Error occurred prerendering page "/"`
+        config.output.webassemblyModuleFilename = "static/wasm/[modulehash].wasm";
+
+        const patterns = [];
+
+        const destinations = [
+            "./static/wasm/[name][ext]", // -> .next/static/wasm
+            "./server/static/wasm/[name][ext]",  // -> .next/server/static/wasm
+        ];
+
+        for (const dest of destinations) {
+        patterns.push({
+            context: ".next",
+            from: "server/chunks/static/wasm/",
+            to: dest,
+            filter: (resourcePath) => resourcePath.endsWith(".wasm"),
+            noErrorOnMissing: true
+        });
+        }
+
+        config.plugins.push(new CopyWebpackPlugin({ patterns }));
+
+        return config;
+    }
+}
+
+export default config;
+```
+
+and then you can import/use the tokenizer:
+
+```ts
+async function mkTokenizer() {
+	const tokenizerModule = await import("bpe-openai-wasm");
+	tokenizer = new tokenizerModule.Tokenizer("o200k_base");
+	return tokenizer;
+}
+```
+
+The [Vercel docs](https://vercel.com/docs/functions/runtimes/wasm) and [examples](https://github.com/vercel/next.js/tree/canary/examples/with-webassembly) might be helpful too!
 
 ## Available Models
 
