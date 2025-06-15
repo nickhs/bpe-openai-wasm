@@ -88,8 +88,8 @@ and then you can import/use the tokenizer:
 
 ```ts
 async function getTokenCount() {
-	const tokenizerModule = await import("bpe-openai-wasm");
-	tokenizer = new tokenizerModule.Tokenizer("o200k_base");
+    const tokenizerModule = await import("bpe-openai-wasm");
+    tokenizer = new tokenizerModule.Tokenizer("o200k_base");
     return tokenizer.count("heya!");
 }
 ```
